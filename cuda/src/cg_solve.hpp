@@ -174,8 +174,10 @@ cg_solve(OperatorType& A,
 
     normr = std::sqrt(rtrans);
 
+    if(false){
     if (myproc == 0 && (k%print_freq==0 || k==max_iter)) {
       std::cout << "Iteration = "<<k<<"   Residual = "<<normr<<std::endl;
+    }
     }
 
     magnitude_type alpha = 0;

@@ -33,13 +33,15 @@ LIBS= -l nvToolsExt
 #MPILDFLAGS=-L/usr/local/mvapich/lib -lmpichcxx -lmpich -lopa -lmpl -lcudart -lcuda -libverbs -ldl -lrt -lm -lpthread
 #c++ -L/usr/local/cuda//lib64 -L/usr/local/cuda//lib -L/lib -L/lib -L/lib -Wl,-rpath,/lib -L/lib -Wl,-rpath,/lib -L/lib -Wl,-rpath,/lib -L/lib -L/lib -I/usr/local/mvapich/include -L/usr/local/mvapich/lib -lmpichcxx -lmpich -lopa -lmpl -lcudart -lcuda -libverbs -ldl -lrt -lm -lpthread
 
+MPI_HOME=/usr/tce/packages/spectrum-mpi/spectrum-mpi-rolling-release-gcc-7.3.1
+
 #openmpi
 MPICFLAGS=-I$(MPI_HOME)/include -pthread 
-MPILDFLAGS=-L$(MPI_HOME)/lib -lmpi -lmpi_cxx -ldl -lm -lrt -lnsl -lutil -lm -ldl
+MPILDFLAGS=-L$(MPI_HOME)/lib -lmpi_ibm -ldl -lm -lrt -lnsl -lutil -lm -ldl
 
-NVCCFLAGS=-lineinfo -gencode=arch=compute_35,code=\"sm_35,compute_35\" #-gencode=arch=compute_20,code=\"sm_20,compute_20\" 
+NVCCFLAGS=-lineinfo -gencode=arch=compute_70,code=\"sm_70,compute_70\" #-gencode=arch=compute_20,code=\"sm_20,compute_20\" 
 
-NVCC=nvcc -Xcompiler -fopenmp 
+NVCC=nvcc -Xcompiler -fopenmp  
 CXX=mpicxx
 CC=mpiccc
 

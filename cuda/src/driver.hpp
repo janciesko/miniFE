@@ -346,6 +346,25 @@ driver(const Box& global_box, Box& my_box,
     waxpy_flops *= num_iters;
 #endif
 
+    //Bytes / sec output
+    int mv_calls = 1 + num_iters;
+    int dot_calls = num_iters;
+    int axpby_calls = 2 + num_iters * 3; 
+
+    double mv_bytes = global_nrows * sizeof(int64_t) + 
+                    global_nnz * sizeof(int64_t) + 
+                    global_nnz * sizeof(double) + 
+                    global_nnz * sizeof(double) +
+                    global_nrows * sizeof(double);
+
+    double dot_bytes = global_nrows * sizeof(double) * 2;
+    double axpby_bytes = global_nrows * sizeof(double) * 3;
+
+    double GBs = (1.0 / 1024 / 1024 / 1024) *
+                 (mv_bytes * mv_calls + dot_bytes * dot_calls +
+                  axpby_bytes * axpby_calls) /
+                 cg_times[TOTAL];
+
     double total_flops = mv_flops + dot_flops + waxpy_flops;
 
     double mv_mflops = -1;
@@ -395,6 +414,8 @@ driver(const Box& global_box, Box& my_box,
       ydoc.get(title)->get("Total")->add("Total CG Mflops","inf");
     ydoc.get(title)->add("Time per iteration",cg_times[TOTAL]/num_iters);
 #endif
+
+    fprintf(stderr,"%0.2f, %0.2f\n", cg_times[TOTAL], total_mflops, GBs);
   }
 
   return verify_result;
