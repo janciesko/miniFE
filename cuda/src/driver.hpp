@@ -415,7 +415,7 @@ driver(const Box& global_box, Box& my_box,
     ydoc.get(title)->add("Time per iteration",cg_times[TOTAL]/num_iters);
 #endif
 
-    fprintf(stderr,"%0.2f, %0.2f\n", cg_times[TOTAL], total_mflops, GBs);
+    fprintf(stderr,"%0.2f, %0.2f, %0.2f\n", cg_times[TOTAL], total_mflops, GBs);
   }
 
   return verify_result;
