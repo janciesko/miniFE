@@ -360,6 +360,11 @@ driver(const Box& global_box, Box& my_box,
     double dot_bytes = global_nrows * sizeof(double) * 2;
     double axpby_bytes = global_nrows * sizeof(double) * 3;
 
+    double GB = (1.0 / 1024 / 1024 / 1024) *
+                 (mv_bytes * mv_calls + dot_bytes * dot_calls +
+                  axpby_bytes * axpby_calls);
+
+
     double GBs = (1.0 / 1024 / 1024 / 1024) *
                  (mv_bytes * mv_calls + dot_bytes * dot_calls +
                   axpby_bytes * axpby_calls) /
@@ -415,7 +420,7 @@ driver(const Box& global_box, Box& my_box,
     ydoc.get(title)->add("Time per iteration",cg_times[TOTAL]/num_iters);
 #endif
 
-    fprintf(stderr,"%0.2f, %0.2f, %0.2f\n", cg_times[TOTAL], total_mflops, GBs);
+    fprintf(stderr,"%0.2f, %.2f, %0.2f, %0.2f\n", cg_times[TOTAL], total_mflops, GB, GBs);
   }
 
   return verify_result;
